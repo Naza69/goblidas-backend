@@ -18,7 +18,7 @@ public class User extends Base {
     @Column(name = "contraseña")
     private String password;
 
-    //Enum rol de usuario (O admin o customer)
+    //Faltaria enum rol de usuario (O admin o customer)
 
     @Column(name = "email")
     private String email;
