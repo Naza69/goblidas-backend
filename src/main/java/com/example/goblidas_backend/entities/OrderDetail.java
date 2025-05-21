@@ -8,7 +8,7 @@ import lombok.Setter;
 @Table(name = "pedido_detalle")
 @Getter
 @Setter
-public class OrderDetail extends Base {
+public class OrderDetail {
     @EmbeddedId
     private OrderDetailId id;
 

@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Embeddable
 public class DiscountPriceId implements Serializable {
 
-    private Long dicountId;
+    private Long discountId;
     private Long priceId;
 
 }
