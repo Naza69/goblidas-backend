@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class OrderDetail {
     @EmbeddedId
-    private OrderDetailId id;
+    private OrderDetailId id = new OrderDetailId();
 
     @ManyToOne
     @MapsId("orderId")

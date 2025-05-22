@@ -16,7 +16,7 @@ public class DiscountPrice {
 
 
     @EmbeddedId
-    private DiscountPriceId id;
+    private DiscountPriceId id = new DiscountPriceId();
 
     @ManyToOne
     @MapsId("discountId")

@@ -21,7 +21,7 @@ public class Product extends Base {
     private String gender;
 
     @ManyToOne
-    @JoinColumn(name = "id_categoria")
+    @JoinColumn(name = "id_categoria", nullable = false)
     private Category categoryId;
 
 }

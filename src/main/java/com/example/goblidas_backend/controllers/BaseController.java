@@ -24,7 +24,7 @@ public abstract class BaseController<E> {
         }
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<E> getById(@PathVariable Long id){
         try {
             E entity = baseService.findById(id);
@@ -47,7 +47,7 @@ public abstract class BaseController<E> {
         }
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<E> update(@PathVariable Long id, @RequestBody E entity){
         try {
             E entityFound = baseService.findById(id);
@@ -62,7 +62,7 @@ public abstract class BaseController<E> {
         }
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         try {
             if(baseService.delete(id)) {

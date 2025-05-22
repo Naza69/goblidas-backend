@@ -27,10 +27,10 @@ public class Detail extends Base {
     private Price prizeId;
 
     @ManyToOne
-    @JoinColumn(name = "id_producto")
+    @JoinColumn(name = "id_producto", nullable = false)
     private Product productIdj;
 
     @ManyToOne
-    @JoinColumn(name = "id_talle")
+    @JoinColumn(name = "id_talle", nullable = false)
     private Size sizeId;
 }
