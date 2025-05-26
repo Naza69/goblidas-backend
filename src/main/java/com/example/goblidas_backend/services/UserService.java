@@ -19,8 +19,11 @@ public class UserService extends BaseService<User> {
         super(baseRepository);
     }
 
+
     public User createUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getPassword() != null){
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         return userRepository.save(user);
     }
 

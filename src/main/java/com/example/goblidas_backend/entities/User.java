@@ -3,6 +3,7 @@ package com.example.goblidas_backend.entities;
 import com.example.goblidas_backend.entities.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,8 @@ import java.util.List;
 @Getter
 @Setter
 public class User extends Base implements UserDetails {
+
+    @NonNull
     @Column(name = "nombre")
     private String name;
 
@@ -25,6 +28,7 @@ public class User extends Base implements UserDetails {
     private String password;
 
     //Faltaria enum rol de usuario (O admin o customer)
+    @NonNull
     @Enumerated(EnumType.STRING)
     @Column(name = "rol")
     private Role role;
