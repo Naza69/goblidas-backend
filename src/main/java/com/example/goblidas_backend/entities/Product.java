@@ -12,7 +12,7 @@ public class Product extends Base {
 
     //No se si este tipo este bien
     @Column(name = "tipo_producto")
-    private byte productType;
+    private String productType;
 
     @Column(name = "nombre")
     private String name;

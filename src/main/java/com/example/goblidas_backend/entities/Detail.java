@@ -17,10 +17,10 @@ public class Detail extends Base {
 
     //No se si estos dos tipos sean correctos
     @Column(name = "marca")
-    private byte[] brand;
+    private float[] brand;
 
     @Column(name = "stock")
-    private byte[] stock;
+    private float[] stock;
 
     @ManyToOne
     @JoinColumn(name = "id_precio", nullable = false)
