@@ -23,6 +23,7 @@ public class Discount extends Base {
     @Column(name = "fecha_inicio")
     private LocalDateTime initialDate;
 
+    //Porcentaje como float (?
     @Column(name = "procentaje")
-    private byte percentage;
+    private float percentage;
 }
