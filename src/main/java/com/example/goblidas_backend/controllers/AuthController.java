@@ -36,7 +36,7 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
             User user = (User) auth.getPrincipal();
-            String token = jwtUtil.generateToken(user.getUsername());
+            String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
             return ResponseEntity.ok(new AuthResponse(token));
         } catch (AuthenticationException e){
             return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).body("Credenciales invalidas");

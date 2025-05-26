@@ -36,7 +36,19 @@ public class User extends Base implements UserDetails {
     private String dni;
 
 
-   @Override
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    @Override
     public String getUsername() {
         return email; // Spring Security va a usar esto como identificador único
     }
@@ -44,6 +56,11 @@ public class User extends Base implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+
+    public Role getRole() {
+        return role;
     }
 
     @Override

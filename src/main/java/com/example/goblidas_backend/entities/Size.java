@@ -14,5 +14,5 @@ public class Size extends Base {
 
     //No se si byte sea el tipo adecuado
     @Column(name = "numero")
-    private float[] number;
+    private int[] number;
 }
