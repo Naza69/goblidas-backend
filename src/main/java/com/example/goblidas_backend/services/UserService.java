@@ -9,14 +9,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService extends BaseService<User> {
-    @Autowired
+    //@Autowired
     private UserRepository userRepository;
 
-    @Autowired
+    //@Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserService(JpaRepository<User, Long> baseRepository){
+    public UserService(JpaRepository<User, Long> baseRepository, PasswordEncoder passwordEncoder, UserRepository userRepository){
         super(baseRepository);
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
