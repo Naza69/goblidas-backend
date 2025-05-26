@@ -3,6 +3,7 @@ package com.example.goblidas_backend.config;
 import com.example.goblidas_backend.jwt.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -27,6 +28,26 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/product").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/category").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/order").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/orderdetail").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "api/orderdetailid").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/price").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/size").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/useradress").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/user").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/detail").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "api/discount").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/discountprice").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/discountpriceid").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/image").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/adress").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/detailprice").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/detailpriceid").permitAll()
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())
