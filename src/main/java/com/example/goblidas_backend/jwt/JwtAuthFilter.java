@@ -20,6 +20,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserServiceImpl userService;
 
+
     public JwtAuthFilter(JwtUtil jwtUtil, UserServiceImpl userService) {
         this.jwtUtil = jwtUtil;
         this.userService = userService;
@@ -32,6 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws ServletException, IOException, java.io.IOException {
 
         String path = request.getServletPath();
+        final String requestPath = request.getRequestURI();
 
         if(path.startsWith("/auth/")) {
             filterChain.doFilter(request, response);
@@ -49,6 +51,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         jwt = authHeader.substring(7);
         userEmail = jwtUtil.extractUsername(jwt);
+
+        if(requestPath.startsWith("auth/login")) {
+            filterChain.doFilter(request, response);
+        }
 
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             var userDetails = userService.loadUserByUsername(userEmail);
