@@ -23,4 +23,7 @@ public class Adress extends Base {
 
    @Column(name = "provincia")
    private String province;
+
+   @Column(name = "numero")
+   private Integer number;
 }

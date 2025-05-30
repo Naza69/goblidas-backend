@@ -10,8 +10,8 @@ import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
+//@Setter
+//@Getter
 @MappedSuperclass
 @Data
 public abstract class Base implements Serializable {
