@@ -43,13 +43,13 @@ public class ProductService extends BaseService<Product> {
     //}
 
     @Transactional
-    public List<Product> filtroProd (
-            String sexo,
-            String brand,
-            Integer talleNumero,
+    public List<Product> filterProd (
+            String gender,
+            //String brand,
+            //Integer talleNumero,
             String productType,
-            String nombre,
-            String cateoria,
+            String name,
+            String category,
             Double min,
             Double max
     ) throws Exception {
@@ -57,7 +57,7 @@ public class ProductService extends BaseService<Product> {
             throw new Exception("El valor de 'min' no puede ser mayor que 'max'.");
         }
 
-        return productRepository.filter(sexo, brand, talleNumero, productType, nombre, cateoria, min, max);
+        return productRepository.filter(name, gender, productType, category);
     }
 
     public List<Product> orderAsc (
@@ -66,7 +66,7 @@ public class ProductService extends BaseService<Product> {
         if (productos.isEmpty()) {
             throw new Exception("La lista esta vacia");
         }
-        return productRepository.ordenarPrecioAsc(productos);
+        return productRepository.orderByNameAsc(productos);
     }
 
     public List<Product> orderDesc (
@@ -75,6 +75,6 @@ public class ProductService extends BaseService<Product> {
         if (productos.isEmpty()) {
             throw new Exception("La lista esta vacia");
         }
-        return productRepository.ordenarPrecioDesc(productos);
+        return productRepository.orderByNameDesc(productos);
     }
 }

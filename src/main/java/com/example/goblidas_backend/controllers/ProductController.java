@@ -14,7 +14,10 @@ import java.util.Locale;
 @RestController
 @RequestMapping("/api/product")
 public class ProductController extends BaseController<Product> {
-    public ProductController(ProductService productService){
+
+    private ProductService productService;
+
+    public ProductController(ProductService productService) {
         super(productService);
     }
 
@@ -22,10 +25,11 @@ public class ProductController extends BaseController<Product> {
     @GetMapping("/filter")
     public ResponseEntity<List<Product>> filterProduct(
             @RequestParam(required = false) String gender,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) Integer talleNumero,
+            @RequestParam(required = false) String name,
+            //@RequestParam(required = false) String brand,
+            //@RequestParam(required = false) Integer talleNumero,
             @RequestParam(required = false) String productType,
-            @RequestParam(required = false) String modelo,
+            //@RequestParam(required = false) String modelo,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) Double min,
             @RequestParam(required = false) Double max,
@@ -33,10 +37,14 @@ public class ProductController extends BaseController<Product> {
             @RequestParam(required = false) Boolean desc
     ) throws Exception {
         try {
-            List<Product> productos = ProductService.filtroProd(gender, brand, talleNumero, productType, modelo.toUpperCase(Locale.ROOT), category, min, max);
+            List<Product> productos = productService.filterProd(gender, name, productType, category, min, max);
             if (productos.isEmpty()) {
                 return ResponseEntity.noContent().build();
             } else {
+
+                if (Boolean.TRUE.equals(asc) && Boolean.TRUE.equals(desc)) {
+                    throw new Exception("No se puede ordenar ascendente y descendente al mismo tiempo");
+                }
                 if (asc == null) {
                     asc = false;
                 }
@@ -46,10 +54,10 @@ public class ProductController extends BaseController<Product> {
                 }
 
                 if (asc) {
-                    List<Product> productosOrdAsc = ProductService.orderAsc(productos);
+                    List<Product> productosOrdAsc = productService.orderAsc(productos);
                     return ResponseEntity.ok(productosOrdAsc);
                 } else if (desc) {
-                    List<Product> productosOrdDesc = ProductService.orderDesc(productos);
+                    List<Product> productosOrdDesc = productService.orderDesc(productos);
                     return ResponseEntity.ok(productosOrdDesc);
                 }
 
@@ -58,4 +66,5 @@ public class ProductController extends BaseController<Product> {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
 }

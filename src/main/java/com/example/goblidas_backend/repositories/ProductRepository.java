@@ -9,46 +9,46 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends BaseRepository<Product, Long> {
-    @Query("SELECT DISTINCT p " +
-            "FROM Producto p " +
-            "JOIN p.detalles d " +
-            "JOIN d.talle t " +
-            "WHERE (:sexoParam IS NULL OR :sexoParam = p.sexo) " +
-            "AND (:marcaParam IS NULL OR :marcaParam = d.marca) " +
-            "AND (:talleParam IS NULL OR :talleParam = t.numero) " +
-            "AND (:tipoProdParam IS NULL OR :tipoProdParam = p.tipoProducto) " +
-            "AND (:nombreParam IS NULL OR :nombreParam = p.modelo) " +
-            "AND (:categoriaParam IS NULL OR :categoriaParam = p.categoria.nombre) " +
-            "AND ((:min IS NULL AND :max IS NULL) " +
-            "OR (:min IS NOT NULL AND :max IS NOT NULL AND d.precio.precioVenta BETWEEN :min AND :max))")
+    @Query("SELECT p FROM Product p " +
+            "WHERE (:gender IS NULL OR p.gender = :gender) " +
+            "AND (:name IS NULL OR p.name LIKE %:name%) " +
+            "AND (:productType IS NULL OR p.productType = :productType) " +
+            "AND (:category IS NULL OR p.categoryId.name = :category)")
     List<Product> filter(
-            @Param("sexoParam") String gender,
-            @Param("marcaParam") String brand,
-            @Param("talleParam") Integer talle,
-            @Param("tipoProdParam") String productType,
-            @Param("nombreParam") String nombre,
-            @Param("categoriaParam") String category,
-            @Param("min") Double min,
-            @Param("max") Double max
+            @Param("name") String name,
+            @Param("gender") String gender,
+            //@Param("marcaParam") String brand,
+            //@Param("talleParam") Integer talle,
+            @Param("productType") String productType,
+            @Param("category") String category
+            //@Param("min") Double min,
+            //@Param("max") Double max
     );
 
 
-    @Query("SELECT d.producto " +
-            "FROM Detalle d " +
-            "WHERE d.producto " +
-            "IN :productos " +
-            "ORDER BY d.precio.precioVenta DESC")
-    List<Product> ordenarPrecioDesc(
-            @Param("productos") List<Product> productos
-    );
+    //@Query("SELECT d.producto " +
+    //        "FROM Detalle d " +
+    //        "WHERE d.producto " +
+    //        "IN :productos " +
+    //        "ORDER BY d.precio.precioVenta DESC")
+    //List<Product> ordenarPrecioDesc(
+    //        @Param("productos") List<Product> productos
+    //);
 
 
-    @Query("SELECT d.producto " +
-            "FROM Detalle d " +
-            "WHERE d.producto " +
-            "IN :productos " +
-            "ORDER BY d.precio.precioVenta ASC")
-    List<Product> ordenarPrecioAsc (
-            @Param("productos") List<Product> products
-    );
+    //@Query("SELECT d.producto " +
+    //        "FROM Detalle d " +
+    //        "WHERE d.producto " +
+    //        "IN :productos " +
+    //        "ORDER BY d.precio.precioVenta ASC")
+    //List<Product> ordenarPrecioAsc (
+    //        @Param("productos") List<Product> products
+    //);
+
+
+    @Query("SELECT p FROM Product p WHERE p IN :products ORDER BY p.name ASC")
+    List<Product> orderByNameAsc(@Param("products") List<Product> products);
+
+    @Query("SELECT p FROM Product p WHERE p IN :products ORDER BY p.name DESC")
+    List<Product> orderByNameDesc(@Param("products") List<Product> products);
 }
