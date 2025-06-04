@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "producto")
 @Getter
@@ -20,8 +23,16 @@ public class Product extends Base {
     @Column(name = "sexo")
     private String gender;
 
-    @ManyToOne
-    @JoinColumn(name = "id_categoria", nullable = false)
-    private Category categoryId;
+    //@ManyToOne
+    //@JoinColumn(name = "id_categoria", nullable = false)
+    //private Category categoryId;
 
+
+    @ManyToMany
+    @JoinTable(
+            name = "producto_categoria",
+            joinColumns = @JoinColumn(name = "id_producto"),
+            inverseJoinColumns = @JoinColumn(name = "id_categoria")
+    )
+    private List<Category> categories = new ArrayList<>();
 }
