@@ -24,9 +24,10 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    public ImageController(ImageService imageService){
+    public ImageController(ImageService imageService, ImageRepository imageRepository, CloudinaryService cloudinaryService){
         this.imageService = imageService;
-
+        this.imageRepository = imageRepository;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @PostMapping
