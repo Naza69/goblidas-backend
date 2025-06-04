@@ -34,5 +34,5 @@ public class Product extends Base {
             joinColumns = @JoinColumn(name = "id_producto"),
             inverseJoinColumns = @JoinColumn(name = "id_categoria")
     )
-    private List<Category> categories = new ArrayList<>();
+    private List<Category> categoriesIds = new ArrayList<>();
 }
