@@ -5,11 +5,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 //@Setter
 //@Getter
 @MappedSuperclass

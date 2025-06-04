@@ -1,12 +1,13 @@
 package com.example.goblidas_backend.controllers;
 
+import com.example.goblidas_backend.entities.Detail;
 import com.example.goblidas_backend.entities.Product;
+import com.example.goblidas_backend.services.DetailService;
 import com.example.goblidas_backend.services.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Locale;
@@ -17,8 +18,12 @@ public class ProductController extends BaseController<Product> {
 
     private ProductService productService;
 
-    public ProductController(ProductService productService) {
+    private DetailService detailService;
+
+    public ProductController(ProductService productService, DetailService detailService) {
         super(productService);
+        this.productService = productService;
+        this.detailService = detailService;
     }
 
 
@@ -65,6 +70,25 @@ public class ProductController extends BaseController<Product> {
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/detail")
+    public ResponseEntity<?> addDetailByProduct(
+            @PathVariable Long id,
+            @RequestBody Detail detail)
+    {
+        try {
+            Product product = productService.findById(id);
+
+            detail.setProductIdj(product);
+            Detail saved = detailService.save(detail); // o repositorio directamente
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear detalle" + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

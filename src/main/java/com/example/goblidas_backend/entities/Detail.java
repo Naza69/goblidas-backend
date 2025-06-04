@@ -1,6 +1,7 @@
 package com.example.goblidas_backend.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Table(name = "detalle")
 @Getter
 @Setter
+@Data
 public class Detail extends Base {
     @Column(name = "estado")
     private Boolean state;
@@ -33,4 +35,8 @@ public class Detail extends Base {
     @ManyToOne
     @JoinColumn(name = "id_talle", nullable = false)
     private Size sizeId;
+
+    public void setProductIdj(Product productIdj) {
+        this.productIdj = productIdj;
+    }
 }
