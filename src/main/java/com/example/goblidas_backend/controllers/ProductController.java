@@ -1,5 +1,6 @@
 package com.example.goblidas_backend.controllers;
 
+import com.example.goblidas_backend.entities.Category;
 import com.example.goblidas_backend.entities.Detail;
 import com.example.goblidas_backend.entities.Product;
 import com.example.goblidas_backend.services.DetailService;
@@ -35,14 +36,14 @@ public class ProductController extends BaseController<Product> {
             //@RequestParam(required = false) Integer talleNumero,
             @RequestParam(required = false) String productType,
             //@RequestParam(required = false) String modelo,
-            @RequestParam(required = false) String category,
+            @RequestParam(required = false) List<Long> categories,
             @RequestParam(required = false) Double min,
             @RequestParam(required = false) Double max,
             @RequestParam(required = false) Boolean asc,
             @RequestParam(required = false) Boolean desc
     ) throws Exception {
         try {
-            List<Product> productos = productService.filterProd(gender, name, productType, category, min, max);
+            List<Product> productos = productService.filterProd(gender, name, productType, categories, min, max);
             if (productos.isEmpty()) {
                 return ResponseEntity.noContent().build();
             } else {

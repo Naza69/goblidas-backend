@@ -1,5 +1,6 @@
 package com.example.goblidas_backend.services;
 
+import com.example.goblidas_backend.entities.Category;
 import com.example.goblidas_backend.entities.Product;
 import com.example.goblidas_backend.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -49,7 +50,7 @@ public class ProductService extends BaseService<Product> {
             //Integer talleNumero,
             String productType,
             String name,
-            String category,
+            List<Long> categories,
             Double min,
             Double max
     ) throws Exception {
@@ -57,7 +58,7 @@ public class ProductService extends BaseService<Product> {
             throw new Exception("El valor de 'min' no puede ser mayor que 'max'.");
         }
 
-        return productRepository.filter(name, gender, productType, category);
+        return productRepository.filter(name, gender, productType, categories);
     }
 
     public List<Product> orderAsc (

@@ -1,5 +1,6 @@
 package com.example.goblidas_backend.repositories;
 
+import com.example.goblidas_backend.entities.Category;
 import com.example.goblidas_backend.entities.Product;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,18 +10,19 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends BaseRepository<Product, Long> {
-    @Query("SELECT p FROM Product p " +
+    @Query("SELECT DISTINCT p FROM Product p LEFT JOIN p.categoriesIds c " +
             "WHERE (:gender IS NULL OR p.gender = :gender) " +
             "AND (:name IS NULL OR p.name LIKE %:name%) " +
             "AND (:productType IS NULL OR p.productType = :productType) " +
-            "AND (:category IS NULL OR p.categoryId.name = :category)")
+            //"AND (:categoriesIds IS NULL OR EXISTS (SELECT c FROM p.categories c WHERE c.id IN :categoryIds))")
+            "AND (:categoriesIds IS NULL OR c.id IN :categoriesIds)")
     List<Product> filter(
-            @Param("name") String name,
             @Param("gender") String gender,
+            @Param("name") String name,
             //@Param("marcaParam") String brand,
             //@Param("talleParam") Integer talle,
             @Param("productType") String productType,
-            @Param("category") String category
+            @Param("categoriesIds") List<Long> categoriesIds
             //@Param("min") Double min,
             //@Param("max") Double max
     );
