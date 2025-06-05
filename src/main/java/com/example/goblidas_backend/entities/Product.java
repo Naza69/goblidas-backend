@@ -1,5 +1,6 @@
 package com.example.goblidas_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,4 +36,8 @@ public class Product extends Base {
             inverseJoinColumns = @JoinColumn(name = "id_categoria")
     )
     private List<Category> categoriesIds = new ArrayList<>();
+
+    @OneToMany(mappedBy = "productIdj", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Detail> details = new ArrayList<>();
 }

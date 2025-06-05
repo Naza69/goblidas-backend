@@ -1,5 +1,6 @@
 package com.example.goblidas_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class Detail extends Base {
 
     @ManyToOne
     @JoinColumn(name = "id_producto", nullable = false)
+    @JsonBackReference
     private Product productIdj;
 
     @ManyToOne
