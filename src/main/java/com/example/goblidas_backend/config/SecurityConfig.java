@@ -48,6 +48,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/detailprice").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/detailpriceid").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "api/product/filter").permitAll()
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())
