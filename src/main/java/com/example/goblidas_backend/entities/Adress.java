@@ -26,4 +26,7 @@ public class Adress extends Base {
 
    @Column(name = "numero")
    private Integer number;
+
+   @Column(name = "calle")
+   private String streetName;
 }

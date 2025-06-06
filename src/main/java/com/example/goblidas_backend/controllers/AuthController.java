@@ -1,9 +1,11 @@
 package com.example.goblidas_backend.controllers;
 
+import com.example.goblidas_backend.DTOs.RegisterDTO;
 import com.example.goblidas_backend.entities.User;
 import com.example.goblidas_backend.jwt.JwtUtil;
 import com.example.goblidas_backend.payload.AuthRequest;
 import com.example.goblidas_backend.payload.AuthResponse;
+import com.example.goblidas_backend.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,12 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    private UserService userService;
+
+    public AuthController(UserService userService){
+        this.userService = userService;
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request){
         try {
@@ -43,5 +51,15 @@ public class AuthController {
         }
     }
 
-
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterDTO registerDTO) {
+        try {
+            userService.registerUser(registerDTO);
+            return ResponseEntity.ok("Usuario registrado exitosamente");
+            } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
+
+

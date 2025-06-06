@@ -1,6 +1,8 @@
 package com.example.goblidas_backend.services;
 
+import com.example.goblidas_backend.DTOs.RegisterDTO;
 import com.example.goblidas_backend.entities.User;
+import com.example.goblidas_backend.entities.enums.Role;
 import com.example.goblidas_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,5 +30,21 @@ public class UserService extends BaseService<User> {
         }
         return userRepository.save(user);
     }
+
+    public void registerUser(RegisterDTO dto) {
+        if(userRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("El email ya esta en uso");
+        }
+
+        User user = new User();
+
+        user.setName(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(Role.CUSTOMER);
+
+        userRepository.save(user);
+    }
+
 
 }
