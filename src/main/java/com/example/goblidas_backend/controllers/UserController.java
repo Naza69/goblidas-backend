@@ -1,7 +1,9 @@
 package com.example.goblidas_backend.controllers;
 
+import com.example.goblidas_backend.DTOs.CreateUserDTO;
 import com.example.goblidas_backend.entities.User;
 import com.example.goblidas_backend.entities.enums.Role;
+import com.example.goblidas_backend.repositories.UserRepository;
 import com.example.goblidas_backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,20 +28,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    public UserController(UserService userService){
+    private UserRepository userRepository;
+
+    public UserController(UserService userService, UserRepository userRepository){
+
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        if(user.getRole() == null){
-            user.setRole(Role.CUSTOMER);
-        }
-        User created = userService.createUser(user);
-        created.setPassword(null);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    public ResponseEntity<User> createUser(@RequestBody CreateUserDTO dto){
+        //if(user.getRole() == null){
+        //    user.setRole(Role.CUSTOMER);
+        //}
+        User newUser = userService.fromDTO(dto);
+        //created.setPassword(null);
+        userRepository.save(newUser);
+        //return new ResponseEntity<>(created, HttpStatus.CREATED);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
 

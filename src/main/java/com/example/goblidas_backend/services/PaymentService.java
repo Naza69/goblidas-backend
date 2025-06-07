@@ -12,8 +12,9 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import com.mercadopago.resources.preference.PreferenceItem;
-import lombok.Value;
+import org.eclipse.sisu.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,11 +30,26 @@ public class PaymentService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Value("${mercadopago.access.token}")
+    private String accessToken;
+
+    @PostConstruct
+    public void init() {
+        System.out.println(accessToken);
+        MercadoPagoConfig.setAccessToken(accessToken);
+    }
+
     //@Value("${mercadopago.access.token}")
     //private String accessToken;
 
+    public PaymentService(OrderRepository orderRepository, OrderService orderService) {
+        this.orderRepository = orderRepository;
+        this.orderService = orderService;
+    }
+
     public String createPreferenceFromOrder(Long orderId) throws MPException, MPApiException {
 
+        MercadoPagoConfig.setAccessToken(accessToken);
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Orden no encontrada"));
 
 
@@ -58,10 +74,29 @@ public class PaymentService {
                 .externalReference(orderId.toString())
                 .build();
 
-        PreferenceClient preferenceClient = new PreferenceClient();
 
-        Preference preference = preferenceClient.create(preferenceRequest);
 
-        return preference.getInitPoint();
+        try {
+            PreferenceClient preferenceClient = new PreferenceClient();
+
+            Preference preference = preferenceClient.create(preferenceRequest);
+            System.out.println(preferenceRequest);
+            return preference.getInitPoint();
+        } catch (MPApiException exapi) {
+
+            System.out.println("Error status: " +exapi.getStatusCode());
+            System.out.println("Error cause" + exapi.getApiResponse().getContent());
+           throw exapi;
+        } catch (MPException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
+
+        //System.out.println(accessToken);
+
+
+        //System.out.println("Init point" + preference.getInitPoint());
+
+        //return preference.getInitPoint();
     }
 }

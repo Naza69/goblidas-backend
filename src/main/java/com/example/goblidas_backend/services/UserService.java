@@ -1,5 +1,6 @@
 package com.example.goblidas_backend.services;
 
+import com.example.goblidas_backend.DTOs.CreateUserDTO;
 import com.example.goblidas_backend.DTOs.RegisterDTO;
 import com.example.goblidas_backend.entities.User;
 import com.example.goblidas_backend.entities.enums.Role;
@@ -50,6 +51,16 @@ public class UserService extends BaseService<User> {
 
     public Page<User> findAllPaged(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    public User fromDTO(CreateUserDTO dto) {
+        User user = new User();
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(Role.CUSTOMER);
+
+        return user;
     }
 
 

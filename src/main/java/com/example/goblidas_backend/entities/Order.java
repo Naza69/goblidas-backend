@@ -2,6 +2,7 @@ package com.example.goblidas_backend.entities;
 
 import com.example.goblidas_backend.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class Order extends Base {
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     public LocalDateTime getDate() {

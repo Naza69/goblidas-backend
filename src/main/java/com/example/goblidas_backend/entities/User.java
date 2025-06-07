@@ -30,8 +30,8 @@ public class User extends Base implements UserDetails {
     //Faltaria enum rol de usuario (O admin o customer)
     @NonNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "rol")
-    private Role role;
+    @Column(name = "rol", nullable = false)
+    private Role role = Role.CUSTOMER;
 
     @Column(name = "email")
     private String email;

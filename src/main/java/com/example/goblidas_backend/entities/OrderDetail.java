@@ -1,5 +1,6 @@
 package com.example.goblidas_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class OrderDetail {
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "id_pedido", nullable = false)
+    @JsonBackReference
     private Order orderId;
 
     @ManyToOne
