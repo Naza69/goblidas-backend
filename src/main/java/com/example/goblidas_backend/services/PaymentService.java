@@ -12,7 +12,8 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import com.mercadopago.resources.preference.PreferenceItem;
-import org.eclipse.sisu.PostConstruct;
+import jakarta.annotation.PostConstruct;
+//import org.eclipse.sisu.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -57,23 +58,27 @@ public class PaymentService {
         List<PreferenceItemRequest> items = order.getOrderDetails().stream()
                 .map(detail -> PreferenceItemRequest.builder()
                         .title(detail.getDetailId().getProductIdj().getName())
+                        .id("123")
+                        .description("Por favor enviate")
                         .quantity(detail.getQuantity())
                         .unitPrice(detail.getUnitPrice())
                         .currencyId("ARS")
                         .build())
                 .collect(Collectors.toList());
 
-        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
-                .items(items)
-                .backUrls(PreferenceBackUrlsRequest.builder()
-                        .success("http://localhost:5173/success")
-                        .failure("http://localhost:5173/failure")
-                        .pending("http://localhost:5173/pending")
-                        .build())
-                .autoReturn("approved")
-                .externalReference(orderId.toString())
+        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
+                .success("http://localhost:5173/success")
+                .failure("http://localhost:5173/failure")
+                .pending("http://localhost:5173/pending")
+
                 .build();
 
+        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
+                .items(items)
+                 //.autoReturn("approved")
+                .backUrls(backUrls)
+                .externalReference(orderId.toString())
+                .build();
 
 
         try {
@@ -83,12 +88,15 @@ public class PaymentService {
             System.out.println(preferenceRequest);
             return preference.getInitPoint();
         } catch (MPApiException exapi) {
-
-            System.out.println("Error status: " +exapi.getStatusCode());
-            System.out.println("Error cause" + exapi.getApiResponse().getContent());
+            var apiReponse = exapi.getApiResponse();
+            var content = apiReponse.getContent();
+            System.out.println(content);
+            System.out.println("Error status: " + exapi.getStatusCode());
+            System.out.println("Error cause: " + exapi.getApiResponse().getContent());
            throw exapi;
         } catch (MPException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+            ex.getMessage();
             throw ex;
         }
 
