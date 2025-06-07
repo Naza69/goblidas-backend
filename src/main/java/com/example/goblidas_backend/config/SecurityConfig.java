@@ -52,6 +52,8 @@ public class SecurityConfig {
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/webhook/**").permitAll()       // webhook público para MP
+                        .requestMatchers("/api/payment/**").authenticated()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS)
