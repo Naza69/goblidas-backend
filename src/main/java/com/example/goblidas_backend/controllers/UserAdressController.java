@@ -5,10 +5,7 @@ import com.example.goblidas_backend.entities.UserAdress;
 import com.example.goblidas_backend.services.UserAdressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +20,8 @@ public class UserAdressController extends BaseController<UserAdress> {
         super(userAdressService);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<UserAdress>> getUserAdressByUserId(@PathVariable Long userId){
+    @GetMapping("/filter")
+    public ResponseEntity<List<UserAdress>> getUserAdressByUserId(@RequestParam Long userId){
         List<UserAdress> adresses = userAdressService.getUserAdressesByUserId(userId);
         return ResponseEntity.ok(adresses);
     }
