@@ -127,7 +127,7 @@ public class UserController {
     }
 
 
-    @GetMapping
+    @GetMapping("/paged")
     public ResponseEntity<Page<User>> getAllPagedUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size

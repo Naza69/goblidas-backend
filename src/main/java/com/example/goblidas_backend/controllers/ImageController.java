@@ -100,7 +100,7 @@ public class ImageController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/paged")
     public ResponseEntity<Page<Image>> getAllPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
