@@ -29,6 +29,14 @@ public class Product extends Base {
     //private Category categoryId;
 
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @ManyToMany
     @JoinTable(
             name = "producto_categoria",

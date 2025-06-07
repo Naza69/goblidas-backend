@@ -1,6 +1,8 @@
 package com.example.goblidas_backend.services;
 
 import com.example.goblidas_backend.DTOs.CartItemDTO;
+import com.example.goblidas_backend.entities.Order;
+import com.example.goblidas_backend.repositories.OrderRepository;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
@@ -11,6 +13,7 @@ import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import com.mercadopago.resources.preference.PreferenceItem;
 import lombok.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,17 +23,26 @@ import java.util.stream.Collectors;
 public class PaymentService {
 
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
     //@Value("${mercadopago.access.token}")
     //private String accessToken;
 
-    public String createPreference(List<CartItemDTO> cartItems) throws MPException, MPApiException {
+    public String createPreferenceFromOrder(Long orderId) throws MPException, MPApiException {
+
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Orden no encontrada"));
 
 
-        List<PreferenceItemRequest> items = cartItems.stream()
-                .map(item -> PreferenceItemRequest.builder()
-                        .title(item.getName())
-                        .quantity(item.getQuantity())
-                        .unitPrice(item.getPrice())
+
+        List<PreferenceItemRequest> items = order.getOrderDetails().stream()
+                .map(detail -> PreferenceItemRequest.builder()
+                        .title(detail.getDetailId().getProductIdj().getName())
+                        .quantity(detail.getQuantity())
+                        .unitPrice(detail.getUnitPrice())
                         .currencyId("ARS")
                         .build())
                 .collect(Collectors.toList());
@@ -43,6 +55,7 @@ public class PaymentService {
                         .pending("http://localhost:5173/pending")
                         .build())
                 .autoReturn("approved")
+                .externalReference(orderId.toString())
                 .build();
 
         PreferenceClient preferenceClient = new PreferenceClient();

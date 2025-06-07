@@ -5,6 +5,11 @@ import com.example.goblidas_backend.DTOs.CartItemDTO;
 import com.example.goblidas_backend.services.PaymentService;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.MercadoPagoClient;
+import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
+import com.mercadopago.client.preference.PreferenceClient;
+import com.mercadopago.client.preference.PreferenceItemRequest;
+import com.mercadopago.client.preference.PreferenceRequest;
+import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import com.mercadopago.resources.preference.PreferenceItem;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +38,10 @@ public class PaymentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createPayment(@RequestBody List<CartItemDTO> cartItems) {
-        try {
-            String initPoint = paymentService.createPreference(cartItems);
-            return ResponseEntity.ok(initPoint);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error al generar el pago" + e.getMessage());
-        }
+    public ResponseEntity<String> createPreference(@RequestBody Long orderId) throws MPException, MPApiException {
+        String initPoint = paymentService.createPreferenceFromOrder(orderId);
+        return ResponseEntity.ok(initPoint);
+
     }
 
 }

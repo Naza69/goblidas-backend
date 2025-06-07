@@ -41,4 +41,18 @@ public class Detail extends Base {
     public void setProductIdj(Product productIdj) {
         this.productIdj = productIdj;
     }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public Product getProductIdj() {
+        return productIdj;
+    }
+
+
 }

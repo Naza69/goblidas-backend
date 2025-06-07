@@ -11,23 +11,23 @@ import java.math.BigDecimal;
 @Data
 public class CartItemDTO {
 
-    private String name;
-    private int quantity;
-    private BigDecimal price;
+    private Long detailId;
+    private Integer quantity;
+    private Float price;
 
-    public void setName(String name) {
-        this.name = name;
+    public Long getDetailId() {
+        return detailId;
     }
 
-    public String getName() {
-        return name;
+    public void setDetailId(Long detailId) {
+        this.detailId = detailId;
     }
 
-    public BigDecimal getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
