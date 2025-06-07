@@ -13,7 +13,7 @@ public class CartItemDTO {
 
     private Long detailId;
     private Integer quantity;
-    private Float price;
+    private BigDecimal price;
 
     public Long getDetailId() {
         return detailId;
@@ -23,11 +23,11 @@ public class CartItemDTO {
         this.detailId = detailId;
     }
 
-    public Float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

@@ -68,7 +68,7 @@ public class OrderService extends BaseService<Order> {
 
             orderDetails.add(orderDetail);
 
-            total += item.getQuantity() * item.getPrice();
+            total += item.getQuantity() * item.getPrice().intValue();
 
             detail.setStock(detail.getStock() - item.getQuantity());
 

@@ -28,7 +28,7 @@ public class OrderDetail {
     private Integer quantity;
 
     @Column(name = "precio_unitario")
-    private Float unitPrice;
+    private BigDecimal unitPrice;
 
     public Detail getDetailId() {
         return detailId;
@@ -58,7 +58,7 @@ public class OrderDetail {
         return unitPrice;
     }
 
-    public void setUnitPrice(Float unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
