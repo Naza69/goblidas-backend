@@ -1,6 +1,9 @@
 package com.example.goblidas_backend.controllers;
 
 import com.example.goblidas_backend.services.BaseService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,7 +78,15 @@ public abstract class BaseController<E> {
         }
     }
 
-
+    @GetMapping("/paged")
+    public ResponseEntity<Page<E>> findAllPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<E> result = baseService.findAll(pageable);
+        return ResponseEntity.ok(result);
+    }
 
 
 }

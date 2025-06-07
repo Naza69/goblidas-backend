@@ -5,6 +5,8 @@ import com.example.goblidas_backend.entities.User;
 import com.example.goblidas_backend.entities.enums.Role;
 import com.example.goblidas_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,9 @@ public class UserService extends BaseService<User> {
         userRepository.save(user);
     }
 
+    public Page<User> findAllPaged(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
 
 
 }

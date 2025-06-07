@@ -1,7 +1,10 @@
 package com.example.goblidas_backend.services;
 
+import com.example.goblidas_backend.repositories.BaseRepository;
 import jakarta.persistence.Id;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -72,5 +75,9 @@ public abstract class BaseService<E> {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+    public Page<E> findAll(Pageable pageable) {
+        return baseRepository.findAll(pageable);
     }
 }
