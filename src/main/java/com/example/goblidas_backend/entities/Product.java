@@ -28,6 +28,17 @@ public class Product extends Base {
     //@JoinColumn(name = "id_categoria", nullable = false)
     //private Category categoryId;
 
+    @Column(name = "destacado")
+    private Boolean highlighted;
+
+    public Boolean getHighlighted() {
+        return highlighted;
+    }
+
+    public void setHighlighted(Boolean highlighted) {
+        this.highlighted = highlighted;
+    }
+
 
     public String getName() {
         return name;

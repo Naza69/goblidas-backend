@@ -15,14 +15,16 @@ public interface ProductRepository extends BaseRepository<Product, Long> {
             "AND (:name IS NULL OR p.name LIKE %:name%) " +
             "AND (:productType IS NULL OR p.productType = :productType) " +
             //"AND (:categoriesIds IS NULL OR EXISTS (SELECT c FROM p.categories c WHERE c.id IN :categoryIds))")
-            "AND (:categoriesIds IS NULL OR c.id IN :categoriesIds)")
+            "AND (:categoriesIds IS NULL OR c.id IN :categoriesIds) " +
+            "AND (:highlighted IS NULL OR p.highlighted = :highlighted)")
     List<Product> filter(
             @Param("gender") String gender,
             @Param("name") String name,
             //@Param("marcaParam") String brand,
             //@Param("talleParam") Integer talle,
             @Param("productType") String productType,
-            @Param("categoriesIds") List<Long> categoriesIds
+            @Param("categoriesIds") List<Long> categoriesIds,
+            @Param("highlighted") Boolean highlighted
             //@Param("min") Double min,
             //@Param("max") Double max
     );
