@@ -59,7 +59,7 @@ public class ProductService extends BaseService<Product> {
             throw new Exception("El valor de 'min' no puede ser mayor que 'max'.");
         }
 
-        return productRepository.filter(name, gender, productType, categories, highlighted);
+        return productRepository.filter(gender, productType, name, categories, highlighted);
     }
 
     public List<Product> orderAsc (
