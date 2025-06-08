@@ -1,5 +1,6 @@
 package com.example.goblidas_backend.services;
 
+import com.example.goblidas_backend.entities.Base;
 import com.example.goblidas_backend.repositories.BaseRepository;
 import jakarta.persistence.Id;
 import jakarta.transaction.Transactional;
@@ -67,14 +68,21 @@ public abstract class BaseService<E> {
     public boolean delete(Long id) throws Exception {
         try {
             if(baseRepository.existsById(id)) {
-                baseRepository.deleteById(id);
-                return true;
+                Optional<E> entity = baseRepository.findById(id);
+                if (entity.isPresent()) {
+
+                    E entityTo = entity.get();
+                    ((Base) entityTo).setActive(false);
+                    baseRepository.save(entityTo);
+                    return true;
+                }
             } else {
                 return false;
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+        return false;
     }
 
     public Page<E> findAll(Pageable pageable) {

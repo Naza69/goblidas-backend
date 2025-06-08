@@ -15,6 +15,9 @@ public class OrderDetail {
     @EmbeddedId
     private OrderDetailId id = new OrderDetailId();
 
+    @Column(name = "activo")
+    private Boolean active = true;
+
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "id_pedido", nullable = false)

@@ -90,11 +90,22 @@ public class ImageController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         try {
-            if(imageService.delete(id)) {
-                return ResponseEntity.ok().build();
+            Image image = imageService.findById(id);
+
+            if (image != null) {
+               image.setActive(false);
+               imageService.save(image);
+
+               return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();
             }
+
+            //if(imageService.delete(id)) {
+            //    return ResponseEntity.ok().build();
+            //} else {
+            //    return ResponseEntity.notFound().build();
+            //}
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

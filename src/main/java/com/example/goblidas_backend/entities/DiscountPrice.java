@@ -18,6 +18,9 @@ public class DiscountPrice {
     @EmbeddedId
     private DiscountPriceId id = new DiscountPriceId();
 
+    @Column(name = "activo")
+    private Boolean active = true;
+
     @ManyToOne
     @MapsId("discountId")
     @JoinColumn(name = "id_descuento", nullable = false)

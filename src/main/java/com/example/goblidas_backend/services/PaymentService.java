@@ -86,7 +86,9 @@ public class PaymentService {
 
             Preference preference = preferenceClient.create(preferenceRequest);
             System.out.println(preferenceRequest);
-            return preference.getInitPoint();
+
+            //return preference.getInitPoint();
+            return preference.getId();
         } catch (MPApiException exapi) {
             var apiReponse = exapi.getApiResponse();
             var content = apiReponse.getContent();

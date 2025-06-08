@@ -13,6 +13,9 @@ public class DetailImage {
     @EmbeddedId
     private DetailImageId id = new DetailImageId();
 
+    @Column(name = "activo")
+    private Boolean active = true;
+
     @ManyToOne
     @MapsId("detailId")
     @JoinColumn(name = "id_detalle", nullable = false)

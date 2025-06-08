@@ -21,6 +21,14 @@ public abstract class Base implements Serializable {
     @Column(name = "activo")
     private Boolean active = true;
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public Long getId() {
         return id;
     }
