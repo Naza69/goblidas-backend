@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/product").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/category").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/order").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/order/create").authenticated()
                         .requestMatchers(HttpMethod.GET, "api/orderdetail").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "api/orderdetailid").permitAll()
