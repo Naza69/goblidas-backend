@@ -69,7 +69,9 @@ public class OrderService extends BaseService<Order> {
             orderDetails.add(orderDetail);
 
             total += item.getQuantity() * item.getPrice().intValue();
-
+            if (detail.getStock() <= 0) {
+                detail.setActive(false);
+            }
             detail.setStock(detail.getStock() - item.getQuantity());
 
 
@@ -80,5 +82,35 @@ public class OrderService extends BaseService<Order> {
         order.setOrderDetails(orderDetails);
 
         return orderRepository.save(order);
+    }
+
+
+    @Transactional
+    public void revertStock(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Orden no encontrada para revertir stock"));
+
+        for (OrderDetail detail : order.getOrderDetails()){
+            Detail productDetail = detail.getDetailId();
+
+            productDetail.setStock(productDetail.getStock() + detail.getQuantity());
+
+            if(!productDetail.getActive() && productDetail.getStock() > 0){
+                productDetail.setActive(true);
+            }
+
+            detailRepository.save(productDetail);
+
+        }
+
+        order.setOrderStatus(OrderStatus.CANCELLED);
+        orderRepository.save(order);
+    }
+
+    @Transactional
+    public void markOrderAsPaid(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Orden no encontrada para marcala como pagada"));
+
+        order.setOrderStatus(OrderStatus.PAID);
+        orderRepository.save(order);
     }
 }

@@ -1,7 +1,11 @@
 package com.example.goblidas_backend.services;
 
 import com.example.goblidas_backend.DTOs.CartItemDTO;
+import com.example.goblidas_backend.entities.Detail;
 import com.example.goblidas_backend.entities.Order;
+import com.example.goblidas_backend.entities.OrderDetail;
+import com.example.goblidas_backend.entities.enums.OrderStatus;
+import com.example.goblidas_backend.repositories.DetailRepository;
 import com.example.goblidas_backend.repositories.OrderRepository;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
@@ -14,6 +18,7 @@ import com.mercadopago.resources.preference.Preference;
 import com.mercadopago.resources.preference.PreferenceItem;
 import jakarta.annotation.PostConstruct;
 //import org.eclipse.sisu.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,6 +39,9 @@ public class PaymentService {
     @Value("${mercadopago.access.token}")
     private String accessToken;
 
+    @Autowired
+    private DetailRepository detailRepository;
+
     @PostConstruct
     public void init() {
         System.out.println(accessToken);
@@ -43,9 +51,10 @@ public class PaymentService {
     //@Value("${mercadopago.access.token}")
     //private String accessToken;
 
-    public PaymentService(OrderRepository orderRepository, OrderService orderService) {
+    public PaymentService(OrderRepository orderRepository, OrderService orderService, DetailRepository detailRepository) {
         this.orderRepository = orderRepository;
         this.orderService = orderService;
+        this.detailRepository = detailRepository;
     }
 
     public String createPreferenceFromOrder(Long orderId) throws MPException, MPApiException {
@@ -66,16 +75,33 @@ public class PaymentService {
                         .build())
                 .collect(Collectors.toList());
 
+
+        //Descomentar si se quiere redireccionar
+        //Hecho con ngrok (Produccion real, bash que levanta una url publica)
+
+        //String backUrl = System.getenv("PUBLIC_BACK_URL");
+        //PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
+        //        .success(backUrl + "/api/payment/success")
+        //        .failure(backUrl + "/api/payment/failure")
+        //        .pending(backUrl + "/api/payment/pending")
+
+        //        .build();
+
+        //Comentar si no se quiere redireccionar
+        //BackUrls de backend, privadas
         PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                .success("http://localhost:5173/success")
-                .failure("http://localhost:5173/failure")
-                .pending("http://localhost:5173/pending")
+                .success("http://localhost:8080/api/payment/success")
+                .failure("http://localhost:8080/api/payment/failure")
+                .pending("http://localhost:8080/api/payment/pending")
 
                 .build();
 
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .items(items)
-                 //.autoReturn("approved")
+                .externalReference(String.valueOf(orderId))
+                 //.autoReturn("approved")          //Dejar comentado si no se quiere redireccion
+                 //.autoReturn("all")               //Si se descomenta, usar urls publicas seteadas
+                                                    //con ngrok (Mirar mas arriba)
                 .backUrls(backUrls)
                 .externalReference(orderId.toString())
                 .build();
@@ -88,6 +114,7 @@ public class PaymentService {
             System.out.println(preferenceRequest);
 
             //return preference.getInitPoint();
+
             return preference.getId();
         } catch (MPApiException exapi) {
             var apiReponse = exapi.getApiResponse();
@@ -109,4 +136,5 @@ public class PaymentService {
 
         //return preference.getInitPoint();
     }
+
 }

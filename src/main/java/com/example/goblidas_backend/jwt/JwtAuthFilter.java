@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.util.List;
+
 @Component
 //@RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -35,10 +37,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
         final String requestPath = request.getRequestURI();
 
-        if(path.startsWith("/auth/")) {
+        List<String> publicPaths = List.of(
+                "/auth/",
+                "/auth/login",
+                "/auth/register",
+                "/api/product/paged",
+                "/api/image/paged"
+        );
+
+        if(publicPaths.stream().anyMatch(path::equals)) {
+
             filterChain.doFilter(request, response);
             return;
         }
+        //if(path.startsWith("/auth/")) {
+        //    filterChain.doFilter(request, response);
+        //    return;
+        //}
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;

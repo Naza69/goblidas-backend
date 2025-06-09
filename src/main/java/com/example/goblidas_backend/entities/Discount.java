@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @Setter
 public class Discount extends Base {
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "fecha_final")
     private LocalDateTime finalDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "fecha_inicio")
     private LocalDateTime initialDate;
 

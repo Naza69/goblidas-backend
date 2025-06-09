@@ -54,6 +54,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/product/filter").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/useradress/filter").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/useradress/filter**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/product/paged").permitAll()
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
