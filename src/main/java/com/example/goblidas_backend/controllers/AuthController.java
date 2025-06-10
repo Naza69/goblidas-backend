@@ -30,6 +30,7 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
     private UserService userService;
 
     public AuthController(UserService userService){

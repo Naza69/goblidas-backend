@@ -45,7 +45,7 @@ public class UserService extends BaseService<User> {
 
         User user = new User();
 
-        user.setName(dto.getUsername());
+        user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setDni(dto.getDni());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));

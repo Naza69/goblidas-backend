@@ -9,10 +9,11 @@ import lombok.Setter;
 @Setter
 @Data
 public class RegisterDTO {
-    private String username;
+    private String name;
     private String email;
     private String password;
     private String dni;
+    //private String role;
 
     public String getDni() {
         return dni;
@@ -30,17 +31,25 @@ public class RegisterDTO {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String username) {
+        this.name = name;
     }
 
     public String getPassword() {
         return password;
     }
+
+    //public String getRole() {
+    //    return role;
+    //}
+
+    //public void setRole(String role) {
+    //    this.role = role;
+    //}
 
     public void setPassword(String password) {
         this.password = password;
