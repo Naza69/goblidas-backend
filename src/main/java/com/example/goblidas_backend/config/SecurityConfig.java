@@ -58,6 +58,8 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "api/order/user/**").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "api/detail/**").permitAll()
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/webhook/**").permitAll()       // webhook público para MP
