@@ -39,16 +39,25 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> createUser(@RequestBody CreateUserDTO dto){
+    public ResponseEntity<?> createUser(@RequestBody CreateUserDTO dto){
         //if(user.getRole() == null){
         //    user.setRole(Role.CUSTOMER);
         //}
-        User newUser = userService.fromDTO(dto);
-        //created.setPassword(null);
-        userRepository.save(newUser);
-        //return new ResponseEntity<>(created, HttpStatus.CREATED);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        try {
+
+            User newUser = userService.fromDTO(dto);
+            //created.setPassword(null);
+            userRepository.save(newUser);
+            //return new ResponseEntity<>(created, HttpStatus.CREATED);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+
+        }
+
     }
 
 

@@ -25,4 +25,40 @@ public class DetailImage {
     @MapsId("imageId")
     @JoinColumn(name = "id_imagen", nullable = false)
     private Image imageId;
+
+
+
+
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Detail getDetailId() {
+        return detailId;
+    }
+
+    public void setDetailId(Detail detailId) {
+        this.detailId = detailId;
+    }
+
+    public Image getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Image imageId) {
+        this.imageId = imageId;
+    }
+
+    public DetailImageId getId() {
+        return id;
+    }
+
+    public void setId(DetailImageId id) {
+        this.id = id;
+    }
 }

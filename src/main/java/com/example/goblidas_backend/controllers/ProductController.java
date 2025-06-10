@@ -41,10 +41,11 @@ public class ProductController extends BaseController<Product> {
             @RequestParam(required = false) Double max,
             @RequestParam(required = false) Boolean asc,
             @RequestParam(required = false) Boolean desc,
-            @RequestParam(required = false) Boolean highlighted
+            @RequestParam(required = false) Boolean highlighted,
+            @RequestParam(required = false) Long sizeId
     ) throws Exception {
         try {
-            List<Product> productos = productService.filterProd(gender, name, productType, categoriesIds, min, max, highlighted);
+            List<Product> productos = productService.filterProd(gender, name, productType, categoriesIds, min, max, highlighted, sizeId);
             if (productos.isEmpty()) {
                 return ResponseEntity.noContent().build();
             } else {

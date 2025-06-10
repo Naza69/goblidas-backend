@@ -53,13 +53,14 @@ public class ProductService extends BaseService<Product> {
             List<Long> categories,
             Double min,
             Double max,
-            Boolean highlighted
+            Boolean highlighted,
+            Long sizeId
     ) throws Exception {
         if (min != null && max != null && min > max) {
             throw new Exception("El valor de 'min' no puede ser mayor que 'max'.");
         }
 
-        return productRepository.filter(gender, productType, name, categories, highlighted);
+        return productRepository.filter(gender, productType, name, categories, highlighted, sizeId, min, max);
     }
 
     public List<Product> orderAsc (

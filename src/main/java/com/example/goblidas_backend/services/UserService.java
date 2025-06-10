@@ -31,6 +31,10 @@ public class UserService extends BaseService<User> {
         if (user.getPassword() != null){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+
+        if(userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("El email ya esta en uso");
+        }
         return userRepository.save(user);
     }
 
@@ -43,6 +47,7 @@ public class UserService extends BaseService<User> {
 
         user.setName(dto.getUsername());
         user.setEmail(dto.getEmail());
+        user.setDni(dto.getDni());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole(Role.CUSTOMER);
 
@@ -54,9 +59,15 @@ public class UserService extends BaseService<User> {
     }
 
     public User fromDTO(CreateUserDTO dto) {
+        if(userRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("El email ya esta en uso");
+        }
+
         User user = new User();
         user.setName(dto.getName());
+
         user.setEmail(dto.getEmail());
+        user.setDni(dto.getDni());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole(Role.CUSTOMER);
 

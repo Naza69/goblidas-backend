@@ -1,6 +1,11 @@
 package com.example.goblidas_backend.controllers;
 
+import com.example.goblidas_backend.entities.Detail;
+import com.example.goblidas_backend.entities.DetailImage;
+import com.example.goblidas_backend.entities.DetailImageId;
 import com.example.goblidas_backend.entities.Image;
+import com.example.goblidas_backend.repositories.DetailImageRepository;
+import com.example.goblidas_backend.repositories.DetailRepository;
 import com.example.goblidas_backend.repositories.ImageRepository;
 import com.example.goblidas_backend.services.CloudinaryService;
 import com.example.goblidas_backend.services.ImageService;
@@ -27,20 +32,47 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    public ImageController(ImageService imageService, ImageRepository imageRepository, CloudinaryService cloudinaryService){
+    @Autowired
+    private DetailRepository detailRepository;
+
+    @Autowired
+    private DetailImageRepository detailImageRepository;
+
+    public ImageController(
+            ImageService imageService,
+            ImageRepository imageRepository,
+            CloudinaryService cloudinaryService,
+            DetailRepository detailRepository,
+            DetailImageRepository detailImageRepository
+    ){
         this.imageService = imageService;
         this.imageRepository = imageRepository;
         this.cloudinaryService = cloudinaryService;
+        this.detailRepository = detailRepository;
     }
 
     @PostMapping
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,
+                                        @RequestParam("detailId") Long detailId) {
         try {
             String imageUrl = cloudinaryService.uploadImage(file);
 
             Image image = new Image();
             image.setUrl(imageUrl);
-            imageRepository.save(image);
+            Image savedImage = imageRepository.save(image);
+
+            Detail detail = detailRepository.findById(detailId).orElseThrow(() -> new RuntimeException("No se encontro el detalle id"));
+
+            DetailImage detailImage = new DetailImage();
+            detailImage.setDetailId(detail);
+            detailImage.setImageId(savedImage);
+
+            DetailImageId detailImageId = new DetailImageId();
+            detailImageId.setDetailId(detail.getId());
+            detailImageId.setImageId(savedImage.getId());
+            detailImage.setId(detailImageId);
+
+            detailImageRepository.save(detailImage);
 
             return ResponseEntity.ok().body(imageUrl);
 
