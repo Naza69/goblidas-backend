@@ -17,4 +17,11 @@ public class UserAdress extends Base {
     @JoinColumn(name = "usuario_id", nullable = false)
     private User userId;
 
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
 }

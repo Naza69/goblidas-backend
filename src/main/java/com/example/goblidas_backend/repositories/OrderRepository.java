@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends BaseRepository<Order, Long> {
 
-    List<Order> findByUserAdressIdUserId(Long userId);
+    List<Order> findByUserAdressIdUserId_Id(Long userId);
 }

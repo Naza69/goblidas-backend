@@ -116,6 +116,6 @@ public class OrderService extends BaseService<Order> {
 
 
     public List<Order> findOrdersByUserId(Long userId) {
-        return orderRepository.findByUserAdressIdUserId(userId);
+        return orderRepository.findByUserAdressIdUserId_Id(userId);
     }
 }
