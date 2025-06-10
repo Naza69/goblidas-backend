@@ -113,4 +113,9 @@ public class OrderService extends BaseService<Order> {
         order.setOrderStatus(OrderStatus.PAID);
         orderRepository.save(order);
     }
+
+
+    public List<Order> findOrdersByUserId(Long userId) {
+        return orderRepository.findByUserAdressIdUserId(userId);
+    }
 }
