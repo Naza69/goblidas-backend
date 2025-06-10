@@ -16,10 +16,10 @@ public interface ProductRepository extends BaseRepository<Product, Long> {
             "AND (:productType IS NULL OR p.productType = :productType) " +
             //"AND (:categoriesIds IS NULL OR EXISTS (SELECT c FROM p.categories c WHERE c.id IN :categoryIds))")
             "AND (:categoriesIds IS NULL OR c.id IN :categoriesIds) " +
-            "AND (:highlighted IS NULL OR p.highlighted = :highlighted)" +
-            "AND (:sizeId IS NULL OR d.sizeId.id = :sizeId" +
-            "AND (:min IS NULL OR d.prizeId.sellingPrice >= :min" +
-            "AND (:max IS NULL OR d.prizeId.purchasePrice <= :max")
+            "AND (:highlighted IS NULL OR p.highlighted = :highlighted) " +
+            "AND (:sizeId IS NULL OR d.sizeId.id = :sizeId) " +
+            "AND (:min IS NULL OR d.prizeId.sellingPrice >= :min) " +
+            "AND (:max IS NULL OR d.prizeId.purchasePrice <= :max) ")
     List<Product> filter(
             @Param("gender") String gender,
             @Param("name") String name,
