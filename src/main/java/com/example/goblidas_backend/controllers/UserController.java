@@ -60,6 +60,19 @@ public class UserController {
 
     }
 
+    @PostMapping("/fromadmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> createUserFromAdmin(@RequestParam User user) {
+        try {
+            User newUser = userService.createUser(user);
+
+            userRepository.save(newUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
