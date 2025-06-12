@@ -15,10 +15,12 @@ import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import com.mercadopago.resources.preference.PreferenceItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,9 @@ public class PaymentController {
         orderService.revertStock(orderId);
         //orderService.cancelOrder(orderId);
 
-        return ResponseEntity.ok("Pago fallido, se restauro el stock");
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create("http://localhost:5173/failure" + orderId))
+                .build();
 
     }
 
@@ -57,7 +61,18 @@ public class PaymentController {
     public ResponseEntity<String> paymentSuccess(@RequestParam("external_reference") Long orderId) throws Exception {
         orderService.markOrderAsPaid(orderId);
 
-        return ResponseEntity.ok("Pago exitoso!");
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create("http://localhost:5173/success" + orderId))
+                .build();
+
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<Void> paymentPending(@RequestParam("external_reference") Long orderId) {
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create("http://localhost:5173/pending"))
+                .build();
     }
 
 

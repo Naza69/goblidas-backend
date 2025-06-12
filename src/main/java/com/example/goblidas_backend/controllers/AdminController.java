@@ -33,7 +33,7 @@ public class AdminController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> createUserFromAdmin(@RequestParam User user) {
+    public ResponseEntity<?> createUserFromAdmin(@RequestBody User user) {
         try {
             User newUser = userService.createUser(user);
 

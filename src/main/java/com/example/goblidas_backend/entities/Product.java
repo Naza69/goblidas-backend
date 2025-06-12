@@ -24,9 +24,9 @@ public class Product extends Base {
     @Column(name = "sexo")
     private String gender;
 
-    //@ManyToOne
-    //@JoinColumn(name = "id_categoria", nullable = false)
-    //private Category categoryId;
+   // @ManyToOne
+   // @JoinColumn(name = "id_categoria")
+   // private Category categoriesId;
 
     @Column(name = "destacado")
     private Boolean highlighted;
