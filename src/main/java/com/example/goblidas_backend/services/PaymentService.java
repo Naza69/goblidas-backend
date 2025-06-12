@@ -44,7 +44,7 @@ public class PaymentService {
 
     @PostConstruct
     public void init() {
-        System.out.println(accessToken);
+        //System.out.println(accessToken);
         MercadoPagoConfig.setAccessToken(accessToken);
     }
 
@@ -81,9 +81,9 @@ public class PaymentService {
 
         //String backUrl = System.getenv("PUBLIC_BACK_URL");
         //PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-        //        .success(backUrl + "/api/payment/success")
-        //        .failure(backUrl + "/api/payment/failure")
-        //        .pending(backUrl + "/api/payment/pending")
+        //        .success("URL del back con ngrok + /api/payment/success")
+        //        .failure("URL del back con ngrok + /api/payment/failure")
+        //        .pending("URL del back con ngrok + /api/payment/pending")
 
         //        .build();
 

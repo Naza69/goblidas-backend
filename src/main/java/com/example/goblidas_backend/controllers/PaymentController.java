@@ -24,7 +24,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/payment")
 public class PaymentController {
@@ -52,7 +52,7 @@ public class PaymentController {
         //orderService.cancelOrder(orderId);
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create("http://localhost:5173/failure" + orderId))
+                .location(URI.create("http://localhost:5173/failure"))
                 .build();
 
     }
@@ -63,7 +63,7 @@ public class PaymentController {
 
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create("http://localhost:5173/success" + orderId))
+                .location(URI.create("http://localhost:5173/success"))
                 .build();
 
     }

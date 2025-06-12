@@ -26,8 +26,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider, JwtAuthFilter jwtAuthFilter) throws Exception {
         http    .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/payment/success").permitAll()
+                        .requestMatchers(HttpMethod.GET,"api/payment/failure").permitAll()
+                        .requestMatchers(HttpMethod.GET,"api/payment/pending").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/product").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/category").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/order").permitAll()
@@ -69,6 +73,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/webhook/**").permitAll()       // webhook público para MP
                         .requestMatchers("/api/payment/**").authenticated()
                         .requestMatchers("/api/payment/create").authenticated()
+
+
+
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -24,6 +24,6 @@ public class MercadoPagoConfigService {
 
 
         MercadoPagoConfig.setAccessToken(accessToken);
-        System.out.println("Token de mp configurado exitosamente" + accessToken);
+        //System.out.println("Token de mp configurado exitosamente" + accessToken);
     }
 }
