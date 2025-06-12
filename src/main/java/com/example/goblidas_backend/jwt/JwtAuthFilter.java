@@ -43,7 +43,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 "/auth/register",
                 "/api/product/paged",
                 "/api/image/paged",
-                "/api/user/register"
+                "/api/user/register",
+                "/api/payment/success",
+                "/api/payment/failure",
+                "/api/payment/pending"
         );
 
         if(publicPaths.stream().anyMatch(path::equals)) {
